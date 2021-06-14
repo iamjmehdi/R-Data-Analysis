@@ -1,0 +1,13 @@
+name: StockDash
+title: StockDash
+username:
+account: speechrecognition
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 4270264
+bundleId: 4715510
+url: https://speechrecognition.shinyapps.io/StockDash/
+when: 1623688838.11339
+lastSyncTime: 1623688838.11339
+asMultiple: FALSE
+asStatic: FALSE

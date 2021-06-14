@@ -3,6 +3,14 @@ library(tidyverse)
 library(corrplot)
 library(dplyr)
 library(ggplot2)
+library("lubridate")
+
+AAPL <- read.csv("AAPL.csv")
+AMZN <- read.csv("AMZN.csv")
+FB <- read.csv("FB.csv")
+GOOG <-read.csv("GOOG.csv")
+MSFT <- read.csv("MSFT.csv")
+NFLX <- read.csv("NFLX.csv")
 
 #Form FANGAM Stocks vector data frame
 df <- cbind(Apple=AAPL$Close, Amazon=AMZN$Close, Facebook=FB$Close, 
@@ -22,7 +30,7 @@ df_plot %>%
                values_to="value") %>%
   mutate(date=mdy(date),
          value=parse_number(value))%>%
-  filter(stock %in% c("amazon", "fb"))%>%
+  filter(stock %in% c("Amazon", "Facebook"))%>%
   ggplot(aes(x=date, y=value,color=stock))+
   geom_point()+
   geom_line()+
@@ -49,7 +57,7 @@ myplot <- function(df,a,b) {
 }
 
 #Pair Trading Graphs
-myplot(df_plot,"fb","amazon")
+myplot(df_plot,"Facebook","Amazon")
 myplot(df_plot,"fb","nflx")
 myplot(df_plot,"fb","goog")
 myplot(df_plot,"fb","aapl")
@@ -85,5 +93,19 @@ df_plot %>%
        y="$ Closing Price",
        x="Date")
 
+plot_data_bigall <- df_plot %>%
+  mutate(date=mdy(date))
+
+plot_data_bigall = plot_data_bigall[order(plot_data_bigall$date),]
+
+print(names(plot_data_bigall))
+
+highchart() %>%
+  hc_title(text = "All 6 Stocks",style = list(fontWeight = "bold")) %>%
+  hc_xAxis(categories = plot_data_bigall$date) %>%
+  hc_add_series(data = as.numeric(plot_data_bigall$Amazon))
+
+
 Russell_3000 <- read_csv("Russell_3000.csv",skip=8)
 DT::datatable(Russell_3000)
+
